@@ -1,0 +1,60 @@
+---
+title: "Mapas"
+author: "Valeria Sosa"
+date: "2022-09-27"
+output: html_document
+---
+
+## Cargo las librerias y/o paquetes necesarios
+```{r}
+library(tidyverse)
+library("sf")
+library("rgee")
+library("mapedit")
+library(raster)
+library("tmap")
+library("rnaturalearth")
+```
+
+## Ejercicio de ejemplo realizado en clase
+```{r}
+mapa <- rnaturalearth::ne_countries(
+country = c("argentina", "chile", "uruguay", "paraguay", "brazil", "bolivia", "falkland islands"), returnclass = "sf")
+
+ggplot(mapa) +
+  geom_sf()
+
+```
+
+```{r}
+estaciones <-read_csv("datos/estaciones_siga.csv")
+```
+##cargo los datos vectoriales para generar el mapa de sudamerica
+```{r}
+mapas <- ne_countries (country = c("argentina","chile", "uruguay","brazil","bolivia","paraguay","falkland islands"),returnclass="sf")
+```
+
+
+```{r}
+str(mapas)
+```
+##visualizamos los datos espaciales
+```{r}
+ggplot(data = estaciones_siga, aes(x=Longitud, y=Latitud))+
+  geom_point()
+
+```
+##visualizamos poligonos
+```{r}
+
+ggplot(data=mapas)+
+  geom_sf()
+```
+##unimos los dos mapas
+```{r}
+ggplot(data=mapas)+
+  geom_sf(fill="lightgreen")+
+  geom_point(data=estaciones_siga, aes(Longitud, Latitud), color="purple")
+
+```
+
